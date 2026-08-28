@@ -1,0 +1,4 @@
+Crie os testes unitários em tests/test_seguranca_eficiencia.py cobrindo 
+  as regras de segurança (validação de UF) e eficiência (cache de         
+  consultas) descritas no documento docs/prd_frete.md. Siga estritamente  
+  as regras de AGENTS.md   
