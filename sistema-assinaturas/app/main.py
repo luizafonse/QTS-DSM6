@@ -14,7 +14,8 @@ VALORES_PLANOS = {
 CUPONS_VALIDOS = {
     "PROMO10": ("PORCENTAGEM", 10.0),
     "DESCONTO20": ("PORCENTAGEM", 20.0),
-    "BEMVINDO50": ("FIXO", 50.0)
+    "BEMVINDO50": ("FIXO", 50.0),
+    "CREDITO100": ("FIXO", 100.0)
 }
 
 class RequisicaoFatura(BaseModel):
@@ -22,12 +23,28 @@ class RequisicaoFatura(BaseModel):
     cupom: Optional[str] = None
     dias_atraso: int = 0
 
-def calcular_faturamento(plano: str, cupom: Optional[str] = None, dias_atraso: int = 0) -> float:
-    plano_upper = plano.upper()
-    if plano_upper not in VALORES_PLANOS:
-        raise ValueError(f"Plano invalido: {plano}")
+class RespostaFatura(BaseModel):
 
-    valor_base = VALORES_PLANOS[plano_upper]
+  plano: str
+
+  valor_base: float
+
+  valor_com_desconto: float
+
+  valor_multa_juros: float
+
+  valor_final: float
+
+def calcular_faturamento(plano: str, cupom: Optional[str] = None, dias_atraso: int = 0) -> float:
+    
+    if not isinstance(plano, str) or not plano.strip():
+        raise ValueError("Plano inválido. Deve ser uma string não vazia.")
+
+    plano_normalizado = plano.strip().upper()
+    if plano_normalizado not in VALORES_PLANOS:
+        raise ValueError(f"Plano inválido: {plano}. Planos disponíveis: {list (VALORES_PLANOS.keys())}")
+
+    valor_base = VALORES_PLANOS[plano_normalizado]
     valor_com_desconto = valor_base
 
     if cupom:

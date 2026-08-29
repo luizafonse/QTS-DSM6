@@ -14,8 +14,8 @@ def test_eror_guessing_dias_atraso_negativo_deve_lancar_erro():
         
 @pytest.mark.unit
 def test_error_guessing_desconto_nao_pode_gerar_fatura_negativa():
-    resultado = calcular_faturamento("basico", cupom="BEMVINDO50")
-    assert resultado >= 0.0
+    resultado = calcular_faturamento("basico", cupom="CREDITO100")
+    assert resultado == 0.0
     
 @pytest.mark.unit
 def test_error_guessing_plano_com_espacos_extras():
